@@ -91,8 +91,8 @@ change the output filename with the ``-f`` option
 
 Configuration
 =====
-CRITICAL_AGE : This is used to set a specific color upto a certain important event in your life in the future. e.g. 35 is the age I want to be financially free after. 
+**CRITICAL_AGE** : This is used to set a specific color upto a certain important event in your life in the future. e.g. 35 is the age I want to be financially free after. 
 
-PAST_COLOR: To color days already in the past. 
+**PAST_COLOR** : To color days already in the past. 
 
-BEFORE_CA_COLOR: To color days differently upto your milestone age. 
+**BEFORE_CA_COLOR** : To color days differently upto your milestone age. 
