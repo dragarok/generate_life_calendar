@@ -14,7 +14,7 @@ CRITICAL_AGE = 35
 BIRTHDAY_COLOUR = (0.5, 0.5, 0.5)
 NEWYEAR_COLOUR = (0.8, 0.8, 0.8)
 PAST_COLOR = (0.2, 0.8, 0.2)
-BEFORE_35_COLOR = (0.8, 0.4, 0.3)
+BEFORE_CA_COLOR = (0.8, 0.4, 0.3)
 
 KEY_NEWYEAR_DESC = "First week of the new year"
 KEY_BIRTHDAY_DESC = "Week of your birthday"
@@ -108,7 +108,7 @@ def draw_row(ctx, pos_y, birthdate, date):
         if has_day_passed(date):
             fill = PAST_COLOR
         elif is_before_critical_age(date, birthdate):
-            fill = BEFORE_35_COLOR
+            fill = BEFORE_CA_COLOR
         elif is_current_week(date, birthdate.month, birthdate.day):
             fill = BIRTHDAY_COLOUR
         elif is_current_week(date, 1, 1):
