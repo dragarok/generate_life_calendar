@@ -4,8 +4,8 @@ import sys
 import os
 import cairo
 
-DOC_WIDTH = 1872   # 26 inches
-DOC_HEIGHT = 2880  # 40 inches
+DOC_WIDTH = 3030  # 26 inches
+DOC_HEIGHT = 3800  # 40 inches
 DOC_NAME = "life_calendar.pdf"
 
 KEY_NEWYEAR_DESC = "First week of the new year"
@@ -15,14 +15,14 @@ XAXIS_DESC = "Weeks of the year"
 YAXIS_DESC = "Years of your life"
 
 FONT = "Brocha"
-BIGFONT_SIZE = 40
+BIGFONT_SIZE = 42
 SMALLFONT_SIZE = 16
 TINYFONT_SIZE = 14
 
-MAX_TITLE_SIZE = 30
-DEFAULT_TITLE = "LIFE CALENDAR"
+MAX_TITLE_SIZE = 80
+DEFAULT_TITLE = "ARE YOU LIVING EACH DAY AS IF ITS YOUR LAST?"
 
-NUM_ROWS = 90
+NUM_ROWS = 69
 NUM_COLUMNS = 52
 
 Y_MARGIN = 144
@@ -34,6 +34,8 @@ X_MARGIN = (DOC_WIDTH - ((BOX_SIZE + BOX_MARGIN) * NUM_COLUMNS)) / 2
 
 BIRTHDAY_COLOUR = (0.5, 0.5, 0.5)
 NEWYEAR_COLOUR = (0.8, 0.8, 0.8)
+PAST_COLOR = (0.2, 0.8, 0.2)
+BEFORE_35_COLOR = (0.8, 0.4, 0.3)
 
 ARROW_HEAD_LENGTH = 36
 ARROW_HEAD_WIDTH = 8
@@ -78,6 +80,18 @@ def is_current_week(now, month, day):
 
     return (now <= date1 < end) or (now <= date2 < end)
 
+def has_day_passed(now):
+    if now <= datetime.datetime.now():
+        return True
+    else:
+        return False
+
+def is_before_35(now, birthdate):
+    if now <= datetime.datetime(birthdate.year + 35, birthdate.month, birthdate.day):
+        return True
+    else:
+        return False
+
 def draw_row(ctx, pos_y, birthdate, date):
     """
     Draws a row of 52 squares, starting at pos_y
@@ -88,7 +102,11 @@ def draw_row(ctx, pos_y, birthdate, date):
     for i in range(NUM_COLUMNS):
         fill=(1, 1, 1)
 
-        if is_current_week(date, birthdate.month, birthdate.day):
+        if has_day_passed(date):
+            fill = PAST_COLOR
+        elif is_before_35(date, birthdate):
+            fill = BEFORE_35_COLOR
+        elif is_current_week(date, birthdate.month, birthdate.day):
             fill = BIRTHDAY_COLOUR
         elif is_current_week(date, 1, 1):
             fill = NEWYEAR_COLOUR
