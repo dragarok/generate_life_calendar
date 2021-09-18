@@ -7,6 +7,14 @@ import cairo
 DOC_WIDTH = 3030  # 26 inches
 DOC_HEIGHT = 3800  # 40 inches
 DOC_NAME = "life_calendar.pdf"
+# There will be color markings from today to that age
+CRITICAL_AGE = 35
+
+# You can customize colors to choose for different dates
+BIRTHDAY_COLOUR = (0.5, 0.5, 0.5)
+NEWYEAR_COLOUR = (0.8, 0.8, 0.8)
+PAST_COLOR = (0.2, 0.8, 0.2)
+BEFORE_35_COLOR = (0.8, 0.4, 0.3)
 
 KEY_NEWYEAR_DESC = "First week of the new year"
 KEY_BIRTHDAY_DESC = "Week of your birthday"
@@ -31,11 +39,6 @@ BOX_MARGIN = 6
 BOX_LINE_WIDTH = 3
 BOX_SIZE = ((DOC_HEIGHT - (Y_MARGIN + 36)) / NUM_ROWS) - BOX_MARGIN
 X_MARGIN = (DOC_WIDTH - ((BOX_SIZE + BOX_MARGIN) * NUM_COLUMNS)) / 2
-
-BIRTHDAY_COLOUR = (0.5, 0.5, 0.5)
-NEWYEAR_COLOUR = (0.8, 0.8, 0.8)
-PAST_COLOR = (0.2, 0.8, 0.2)
-BEFORE_35_COLOR = (0.8, 0.4, 0.3)
 
 ARROW_HEAD_LENGTH = 36
 ARROW_HEAD_WIDTH = 8
@@ -86,8 +89,8 @@ def has_day_passed(now):
     else:
         return False
 
-def is_before_35(now, birthdate):
-    if now <= datetime.datetime(birthdate.year + 35, birthdate.month, birthdate.day):
+def is_before_critical_age(now, birthdate):
+    if now <= datetime.datetime(birthdate.year + CRITICAL_AGE, birthdate.month, birthdate.day):
         return True
     else:
         return False
@@ -104,7 +107,7 @@ def draw_row(ctx, pos_y, birthdate, date):
 
         if has_day_passed(date):
             fill = PAST_COLOR
-        elif is_before_35(date, birthdate):
+        elif is_before_critical_age(date, birthdate):
             fill = BEFORE_35_COLOR
         elif is_current_week(date, birthdate.month, birthdate.day):
             fill = BIRTHDAY_COLOUR
